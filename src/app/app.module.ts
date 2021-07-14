@@ -10,6 +10,7 @@ import {environment} from "../environments/environment";
 import {StoreModule} from "@ngrx/store";
 import {registrationReducer} from "./Registration/store/registration.state";
 import {EffectsModule} from "@ngrx/effects";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {EffectsModule} from "@ngrx/effects";
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
+    BrowserAnimationsModule,
   ],
   providers: [],
   exports: [

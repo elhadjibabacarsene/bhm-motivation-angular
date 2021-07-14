@@ -13,6 +13,11 @@ import {RecommandationEffects} from "./state/recommandation.effects";
 import {StoreModule} from "@ngrx/store";
 import {RECOMMANDATION_STATE_NAME} from "./state/recommandation.selector";
 import {registrationReducer} from "./store/registration.state";
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 
 
 
@@ -30,6 +35,11 @@ import {registrationReducer} from "./store/registration.state";
     RouterModule,
     StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
     EffectsModule.forFeature([RecommandationEffects]),
+    MatStepperModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
 
   ]
 })
