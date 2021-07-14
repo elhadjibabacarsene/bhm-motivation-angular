@@ -35,4 +35,11 @@ export class SubscribeComponent implements OnInit {
     });*/
   }
 
+  get prenom () {return this.subscribeForm.get('prenom')}
+  get nom () {return this.subscribeForm.get('nom')}
+  get sexe () {return this.subscribeForm.get('sexe')}
+  get email () {return this.subscribeForm.get('email')}
+  get telephone () {return this.subscribeForm.get('telephone')}
+  get password () {return this.subscribeForm.get('password')}
+  get confirmPassword () {return this.subscribeForm.get('confirmPassword')}
 }
