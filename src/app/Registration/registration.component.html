@@ -1,0 +1,26 @@
+<div class="flex flex-col lg:flex-row h-full">
+           <div class="relative w-full bg-cover lg:w-6/12 xl:w-7/12 bg-bg-registration">
+               <div class="relative flex flex-col items-center justify-center w-full h-full px-10 my-20 lg:px-16 lg:my-0">
+                   <div class="flex flex-col items-start space-y-8 tracking-tight lg:max-w-3xl">
+                       <div class="relative">
+                           <p class="mb-2 font-medium text-white uppercase">Alors,</p>
+                           <h2 class="text-5xl font-bold text-white xl:text-6xl">Prêt(e) à pour le départ ?</h2>
+                       </div>
+                       <p class="text-2xl text-white">DEVENEZ VOTRE MEILLEURE VERSION !</p>
+                   </div>
+               </div>
+           </div>
+
+           <div class="w-full bg-white lg:w-6/12 xl:w-5/12">
+            <div class="flex flex-col items-center justify-center w-full h-full p-10 lg:p-16 xl:p-24">
+               <div class="w-5/12 text-center">
+                  <img src="../../assets/Images/Logos/bhm-logo-dark.png" alt="logo-bhm-dark" class="">
+               </div>
+               <!-- app à implémenter -->
+               <router-outlet></router-outlet>
+               <!--<app-recommandation [hidden]="activeComponent!='recommandation'" (loadResultComponent)="loadResultComponent($event)"></app-recommandation>
+               <app-resultat [hidden]="activeComponent!='resultat'" (loadSubscribeComponent)="loadSubscribeComponent($event)"></app-resultat>
+               <app-subscribe [hidden]="activeComponent!='subscribe'"></app-subscribe>-->
+            </div>
+           </div>
+       </div>

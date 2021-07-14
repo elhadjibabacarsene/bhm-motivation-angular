@@ -1,0 +1,30 @@
+<!-- Résultat de la recommandation -->
+<div class="relative w-full mt-10 space-y-8">
+    <div class="grid-cols-1 space-y-6">
+        <div class="relative">
+            <div class="bg-blue-500 font-sans text-xl rounded-lg text-center py-10 px-20 text-white">
+                <p class="font-light mb-1">Votre imc est de:</p>
+                <p class=" text-5xl">
+                {{ result?.imc}}
+                    <span class="text-xl">kg/m<sup>2</sup></span>
+                </p>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="bg-yellow-500 font-sans text-xl rounded-lg text-center py-10 px-20 text-white">
+                <p class="font-light mb-1">Le programme choisi:</p>
+                <p class=" text-2xl">
+                  {{ result?.choix }}
+                </p>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="bg-green-500 font-sans text-xl rounded-lg text-center py-10 px-20 text-white">
+                <p class="font-light mb-1">Résultat:</p>
+                <p class=" text-2xl">
+                  {{ this.result?.recommanded === true ? 'Programme recommandé' : 'Le programme ' + this.result?.progRecommanded + ' vous convient le plus !'}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

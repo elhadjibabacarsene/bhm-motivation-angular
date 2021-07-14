@@ -1,0 +1,41 @@
+<form [formGroup]="recommandationForm" (ngSubmit)="onSubmit()">
+<div class="relative w-full mt-10 space-y-8">
+         <div class="relative">
+             <label class="font-medium text-gray-900">Quel est votre taille ? (en cm)</label>
+             <input type="text" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-600 focus:ring-opacity-50" placeholder="Entrer votre taille" formControlName="taille">
+             <p class="text-red-500 text-xs"></p>
+         </div>
+         <div class="relative">
+             <label class="font-medium text-gray-900">Quel est votre poids ? (en Kg)</label>
+             <input type="text" class="block w-full px-4 py-4 mt-2 text-xl placeholder-gray-400 bg-gray-200 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-600  focus:ring-opacity-50" placeholder="Entrer votre poids" formControlName="poids">
+             <p class="text-red-500 text-xs"></p>
+         </div>
+         <div class="relative">
+            <label class="font-medium text-gray-900">Quel programme voulez-vous suivre ?</label>
+            <div class=" grid grid-cols-3 gap-4 mt-3">
+                <div>
+                    <input class="hidden" value="prise_de_masse" id="prise_de_masse" type="radio" formControlName="choix" checked>
+                    <label class="rounded-lg flex flex-col p-4 border-2 border-gray-200 cursor-pointer" for="prise_de_masse">
+                        <span class="text-base font-bold mt-2 text-center">Prise de masse</span>
+                    </label>
+                </div>
+                <div>
+                    <input class="hidden" value="perte_de_poids" id="perte_de_poids" type="radio" formControlName="choix" checked>
+                    <label class="rounded-lg flex flex-col p-4 border-2 border-gray-200 cursor-pointer" for="perte_de_poids">
+                        <span class="text-base font-bold mt-2 text-center">Perte de poids</span>
+                    </label>
+                </div>
+                <div>
+                    <input class="hidden" value="summer_body" id="summer_body" type="radio" formControlName="choix" checked>
+                    <label class="rounded-lg flex flex-col p-4 border-2 border-gray-200 cursor-pointer" for="summer_body">
+                        <span class="text-base font-bold mt-2 text-center">Summer Body</span>
+                    </label>
+                </div>
+            </div>
+         </div>
+         <div class="relative">
+            <button type="submit" [ngClass]="{'w-full px-5 py-4 text-lg font-medium text-center text-white transition duration-200  rounded-lg':true, 'bg-yellow-200': !recommandationForm.valid, 'bg-yellow-500 hover:bg-yellow-600 ease-out':recommandationForm.valid}"
+            [disabled]="!recommandationForm.valid">Poursuivre</button>
+        </div>
+</div>
+</form>

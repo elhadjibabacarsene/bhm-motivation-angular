@@ -1,0 +1,5 @@
+input:checked + label {
+    color: white;
+    background: rgba(0, 0, 0, 0) -webkit-linear-gradient(45deg, rgb(253, 150, 3), rgb(253, 124, 3), rgb(198, 0, 65)) repeat scroll 0% 0%;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
