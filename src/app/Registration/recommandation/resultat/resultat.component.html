@@ -19,10 +19,11 @@
             </div>
         </div>
         <div class="relative">
-            <div class="bg-green-500 font-sans text-xl rounded-lg text-center py-10 px-20 text-white">
+            <div  [ngClass]="{ 'bg-green-500': this.result?.recommanded, 'bg-red-500' : !this.result?.recommanded }"
+                  class="font-sans text-xl rounded-lg text-center py-10 px-20 text-white">
                 <p class="font-light mb-1">Recommandation:</p>
                 <p class=" text-2xl">
-                  {{ this.result?.recommanded === true ? 'Oui' : 'Le programme ' + this.result?.progRecommanded + ' vous convient le plus !'}}
+                  {{ this.result?.recommanded === true ? 'Oui' : this.result?.progRecommanded }}
                 </p>
             </div>
         </div>
@@ -34,7 +35,8 @@
               </svg>
               <span class="mx-2">Retour</span>
             </button>
-            <button class="flex justify-center bg-white border border-white p-2 rounded text-yellow-500  flex items-center focus:outline-none focus:shadow-outline hover:text-yellow-600 hover:animate-pulse">
+            <button (click)="onClickNext()"
+                  class="flex justify-center bg-white border border-white p-2 rounded text-yellow-500  flex items-center focus:outline-none focus:shadow-outline hover:text-yellow-600 hover:animate-pulse">
               <span class="mx-2">Poursuivre</span>
               <svg width="24" height="24" viewBox="0 0 16 16">
                 <path d="M7 4 L11 8 L7 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />

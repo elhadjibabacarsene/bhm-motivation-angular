@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Store} from "@ngrx/store";
+import {RegistrationState} from "../store/registration.state";
+import {getRecommandationSelector} from "../state/recommandation.selector";
+import {ResultRecommandation} from "../models/recommandation.model";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-subscribe',
@@ -7,9 +12,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./subscribe.component.scss']
 })
 export class SubscribeComponent implements OnInit {
-  /*isLinear = false;
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;*/
+  result: ResultRecommandation | null | undefined;
+
 
   subscribeForm = new FormGroup({
     prenom: new FormControl('', Validators.required),
@@ -24,15 +28,13 @@ export class SubscribeComponent implements OnInit {
     sexe: new FormControl('', Validators.required)
   })
 
-  constructor() { }
+  constructor(private store : Store<RegistrationState>) { }
 
-  ngOnInit(): void {/*
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });*/
+  ngOnInit(): void {
+
+    this.store.select(getRecommandationSelector).subscribe((data) => {
+      this.result = data;
+    })
   }
 
   get prenom () {return this.subscribeForm.get('prenom')}

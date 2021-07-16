@@ -8,13 +8,19 @@ import {RegistrationModule} from "./Registration/registration.module";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
 import {StoreModule} from "@ngrx/store";
-import {registrationReducer} from "./Registration/store/registration.state";
 import {EffectsModule} from "@ngrx/effects";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NG_VALIDATORS} from "@angular/forms";
+import {validationNumField} from "./shared/validations/numeric.directive";
+import {PrimengModule} from "./shared/modules/primeng.module";
+import { ProgressComponent } from './views/progress/progress.component';
+import { ProgressStepComponent } from './views/progress/progress-step/progress-step.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ProgressComponent,
+    ProgressStepComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,8 +35,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
     BrowserAnimationsModule,
+    PrimengModule
+
   ],
-  providers: [],
+  providers: [
+    {provide: NG_VALIDATORS, useExisting: validationNumField, multi: true}
+  ],
   exports: [
     AppComponent
   ],

@@ -13,7 +13,7 @@ import {RecommandationEffects} from "./state/recommandation.effects";
 import {StoreModule} from "@ngrx/store";
 import {RECOMMANDATION_STATE_NAME} from "./state/recommandation.selector";
 import {registrationReducer} from "./store/registration.state";
-
+import {PrimengModule} from "../shared/modules/primeng.module";
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import {registrationReducer} from "./store/registration.state";
     RegistrationRoutingModule,
     RouterModule,
     StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
-    EffectsModule.forFeature([RecommandationEffects])
+    EffectsModule.forFeature([RecommandationEffects]),
+    PrimengModule
 
   ]
 })

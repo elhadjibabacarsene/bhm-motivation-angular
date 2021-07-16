@@ -16,7 +16,6 @@ export class RecommandationEffects {
         return this.registrationService.getRecommandation(action.demande)
           .pipe(map(data => {
             Swal.close();
-            console.log(data, 'send')
             return getRecommandationSuccess({recommandation: data});
           }))
       }))
