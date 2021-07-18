@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentInit, Component, HostBinding, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-progress-step',
@@ -6,6 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./progress-step.component.scss']
 })
 export class ProgressStepComponent implements OnInit {
+
+  public stepIndex!: number;
+
+  @HostBinding('class.activeStep')
+  public isActive = false;
+
+  @Input() public set activeState(step: this){
+    this.isActive = step === this;
+  }
 
   constructor() { }
 
