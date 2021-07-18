@@ -13,7 +13,7 @@ import {RecommandationEffects} from "./state/recommandation.effects";
 import {StoreModule} from "@ngrx/store";
 import {RECOMMANDATION_STATE_NAME} from "./state/recommandation.selector";
 import {registrationReducer} from "./store/registration.state";
-import {PrimengModule} from "../shared/modules/primeng.module";
+import {ProgressModule} from "../views/progress/progress.module";
 
 
 @NgModule({
@@ -23,15 +23,15 @@ import {PrimengModule} from "../shared/modules/primeng.module";
     RecommandationComponent,
     ResultatComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RegistrationRoutingModule,
-    RouterModule,
-    StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
-    EffectsModule.forFeature([RecommandationEffects]),
-    PrimengModule
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RegistrationRoutingModule,
+        RouterModule,
+        StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
+        EffectsModule.forFeature([RecommandationEffects]),
+        ProgressModule
 
-  ]
+    ]
 })
 export class RegistrationModule { }

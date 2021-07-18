@@ -1,35 +1,185 @@
+<form [formGroup]="subscribeForm" xmlns="http://www.w3.org/1999/html">
+  <app-progress>
+    <app-progress-step>
+      <!-- Prenom, nom, sexe & téléphone -->
+      <div class="grid grid-cols-6 gap-6">
+        <!-- Prenom -->
+        <div class="col-span-6 sm:col-span-3">
+          <label for="first-name" class="block text-sm font-medium text-gray-700">Prénom</label>
+          <input
+            formControlName="prenom" type="text" name="first-name" id="first-name" autocomplete="given-name"
+            class="mt-1 block w-full shadow-sm sm:text-sm  rounded-md"
+            [ngClass]="prenom?.invalid && prenom?.touched ? 'focus:ring-red-500 focus:border-red-500 border-red-500' : 'border-gray-300 focus:ring-yellow-500 focus:border-yellow-500'"
+          >
+          <p *ngIf="prenom?.errors?.required && prenom?.touched" class="text-red-500 text-xs pt-1">
+            Le prénom est obligatoire
+          </p>
+          <p *ngIf="prenom?.errors?.minlength" class="text-red-500 text-xs pt-1">
+            Le prénom est doit être supérieur à 3 caractères
+          </p>
+        </div>
+        <!-- Nom -->
+        <div class="col-span-6 sm:col-span-3">
+          <label for="last-name" class="block text-sm font-medium text-gray-700">Nom</label>
+          <input
+            formControlName="nom"
+            [ngClass]="nom?.invalid && nom?.touched ? 'focus:ring-red-500 focus:border-red-500 border-red-500' : 'border-gray-300 focus:ring-yellow-500 focus:border-yellow-500'"
+            type="text" name="last-name" id="last-name" autocomplete="family-name"
+            class="mt-1 block w-full shadow-sm sm:text-sm rounded-md">
+          <p *ngIf="nom?.errors?.required && nom?.touched"
+             class="text-red-500 text-xs pt-1">Le nom est obligatoire</p>
+          <p *ngIf="nom?.errors?.minlength" class="text-red-500 text-xs pt-1">
+            Le nom est doit être supérieur à 3 caractères
+          </p>
+        </div>
 
-<!--<div class="w-full mt-10">
-      <div class="mb-4">
-          <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom</label>
-          <input type="text" name="email-address" id="prenom" autocomplete="email"
-                 class="mt-1 focus:ring-yellow-500 focus:border-yellow-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-          <p class="text-xs text-red-500 font-thin">Error</p>
+        <div class="col-span-6 sm:col-span-3">
+          <label for="last-name" class="block text-sm font-medium text-gray-700">Téléphone</label>
+          <input
+            formControlName="telephone"
+            [ngClass]="telephone?.invalid && telephone?.touched ? 'focus:ring-red-500 focus:border-red-500 border-red-500' : 'border-gray-300 focus:ring-yellow-500 focus:border-yellow-500'"
+            type="text" name="last-name" id="telephone" autocomplete="family-name"
+            class="mt-1 block w-full shadow-sm sm:text-sm rounded-md">
+          <p *ngIf="telephone?.errors?.required && telephone?.touched"
+             class="text-red-500 text-xs pt-1">Le téléphone est obligatoire</p>
+          <p *ngIf="telephone?.errors?.minlength" class="text-red-500 text-xs pt-1">
+            Le téléphone est doit être supérieur à 9 caractères
+          </p>
         </div>
-        <div class="mb-4">
-          <label for="nom" class="block text-sm font-medium text-gray-700">Nom</label>
-          <input type="text" name="email-address" id="nom" autocomplete="email" class="mt-1 focus:ring-yellow-500 focus:border-yellow-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-          <p class="text-xs text-red-500 font-thin">Error</p>
+
+        <div class="col-span-6 sm:col-span-3">
+          <label for="sexe" class="block text-sm font-medium text-gray-700">Sexe</label>
+          <select
+            formControlName="sexe"
+            id="sexe" autocomplete="sexe"
+            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+            <option value="h">Homme</option>
+            <option value="f">Femme</option>
+          </select>
         </div>
-        <div class="mb-4">
-          <label for="telephone" class="block text-sm font-medium text-gray-700">Nom</label>
-          <input type="text" name="email-address" id="telephone" autocomplete="email" class="mt-1 focus:ring-yellow-500 focus:border-yellow-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-          <p class="text-xs text-red-500 font-thin">Error</p>
+        <div class="col-span-6 sm:col-span-3">
+          <button
+            [ngClass]="prenom?.invalid || nom?.invalid || telephone?.invalid ? 'bg-yellow-100 hover:bg-yellow-100' : 'bg-yellow-500 hover:bg-yellow-600'"
+            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+            progressStepNext>Suivant
+          </button>
+          <!--<button
+            [disabled]="prenom?.invalid || nom?.invalid || telephone?.invalid"
+            [ngClass]="prenom?.invalid || nom?.invalid || telephone?.invalid ? 'bg-yellow-100 hover:bg-yellow-100' : 'bg-yellow-500 hover:bg-yellow-600'"
+            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            progressStepNext>Suivant
+          </button>-->
         </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-3">Sexe</label>
-          <div class="flex items-center mb-4">
-            <input id="homme" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-            <label for="homme" class="ml-3 block text-sm font-medium text-gray-700">
-              Homme
-            </label>
+      </div>
+    </app-progress-step>
+    <app-progress-step>
+      <!-- Email, password & confirmPassword -->
+      <div class="grid grid-cols-6 gap-6">
+        <!-- Password -->
+        <div class="col-span-6 sm:col-span-3">
+          <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+          <input
+            formControlName="password"
+            [ngClass]="password?.invalid && password?.touched ? 'focus:ring-red-500 focus:border-red-500 border-red-500' : 'focus:ring-yellow-500 focus:border-yellow-500 border-gray-300'"
+            type="password" name="first-name" id="password" autocomplete="given-name"
+            class="mt-1 block w-full shadow-sm sm:text-sm rounded-md">
+          <p *ngIf="password?.errors?.required && password?.touched"
+             class="text-red-500 text-xs pt-1">Le mot de pass est obligatoire</p>
+          <p *ngIf="password?.errors?.minlength && !password?.errors?.required" class="text-red-500 text-xs pt-1">
+            Le mot de passe doit être au moins de 8 caractères
+          </p>
+          <p *ngIf="password?.errors?.pattern && !password?.errors?.minlength" class="text-red-500 text-xs pt-1">
+            Utilisez au moins une lettre majuscule, une lettre minuscule, un chiffre & un caractère spécial :
+          </p>
+        </div>
+        <!-- ConfirmPassword -->
+        <div class="col-span-6 sm:col-span-3">
+          <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirmation mot de
+            passe</label>
+          <input
+            formControlName="confirmPassword"
+            [ngClass]="{'focus:ring-red-500 focus:border-red-500 border-red-500 '  : confirmPassword?.invalid && confirmPassword?.touched}"
+            type="password" name="email-address" id="confirm-password" autocomplete="email"
+            class="mt-1 focus:ring-yellow-500 focus:border-yellow-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+          <p *ngIf="confirmPassword?.errors?.required && confirmPassword?.touched"
+             class="text-red-500 text-xs pt-1">Ce champs est obligatoire</p>
+          <p *ngIf="confirmPassword?.errors?.matching && confirmPassword?.touched"
+             class="text-red-500 text-xs pt-1">Les deux mots de passe ne correspondent pas</p>
+        </div>
+        <!-- Email -->
+        <div class="col-span-6 sm:col-span-4">
+          <label for="email-address" class="block text-sm font-medium text-gray-700">Adresse Email</label>
+          <input
+            formControlName="email"
+            [ngClass]="{'focus:ring-red-500 focus:border-red-500 border-red-500 '  : email?.invalid && email?.touched}"
+            type="text" name="email-address" id="email-address" autocomplete="email"
+            class="mt-1 focus:ring-yellow-500 focus:border-yellow-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+          <p *ngIf="email?.errors?.required && email?.touched"
+             class="text-red-500 text-xs pt-1">Ce champs est obligatoire</p>
+          <p *ngIf="email?.errors?.email && email?.touched"
+             class="text-red-500 text-xs pt-1">L'email est incorrecte</p>
+        </div>
+        <div class="col-span-6 sm:col-span-3 grid grid-cols-2 gap-4">
+          <div>
+            <button
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              progressStepPrev>Précédent
+            </button>
           </div>
-          <div class="flex items-center">
-            <input id="femme" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-            <label for="femme" class="ml-3 block text-sm font-medium text-gray-700">
-              Femme
-            </label>
+          <div>
+            <button
+              [ngClass]="password?.invalid || confirmPassword?.invalid || email?.invalid ? 'bg-yellow-100 hover:bg-yellow-100' : 'bg-yellow-500 hover:bg-yellow-600'"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              progressStepNext>Suivant
+            </button>
+            <!--<button
+              [disabled]="password?.invalid || confirmPassword?.invalid || email?.invalid"
+              [ngClass]="password?.invalid || confirmPassword?.invalid || email?.invalid ? 'bg-yellow-100 hover:bg-yellow-100' : 'bg-yellow-500 hover:bg-yellow-600'"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              progressStepNext>Suivant
+            </button>-->
           </div>
         </div>
-</div>
--->
+      </div>
+    </app-progress-step>
+    <app-progress-step>
+      <h1>Choisissez une durée: </h1>
+      <div class="grid grid-cols-2 gap-4 mt-2">
+        <div class="text-center">
+          <input class="hidden" value="1mois" id="1mois" type="radio" formControlName="duree" checked>
+          <label
+            class="rounded-lg flex flex-col p-4 border border-b-4 border-gray-300 border-gray-300 rounded-x cursor-pointer"
+            for="1mois">
+            <span class="text-base font-medium mt-2 text-center">1 mois</span>
+            <span class="text-yellow-500 font-black text-2xl mt-3">15 000 FCFA</span>
+            <span class="text-light text-sm">/mois</span>
+          </label>
+        </div>
+        <div class="text-center">
+          <input class="hidden" value="3mois" id="3mois" type="radio" formControlName="duree" checked>
+          <label
+            class="rounded-lg flex flex-col p-4 border border-b-4 border-gray-300 border-gray-300 rounded-x cursor-pointer"
+            for="3mois">
+            <span class="text-base font-medium mt-2 text-center">3 mois</span>
+            <span class="text-yellow-500 font-black text-2xl mt-3">12 000 FCFA</span>
+            <span class="text-light text-sm">/mois</span>
+          </label>
+        </div>
+      </div>
+      <div class="col-span-6 sm:col-span-3 grid grid-cols-3 gap-2 mt-5">
+        <div>
+          <button
+            class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+            progressStepPrev>Précédent
+          </button>
+        </div>
+        <div class="col-span-2">
+          <button (click)="paymentStripe()"
+                  class="w-full bg-yellow-500 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                  progressStepNext>Procéder au paiement
+          </button>
+        </div>
+      </div>
+    </app-progress-step>
+  </app-progress>
+</form>

@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import {Store} from "@ngrx/store";
 import {RegistrationState} from "../store/registration.state";
 import {getRecommandation} from "../state/recommandation.action";
-import {validationNumField} from "../../shared/validations/numeric.directive";
 
 
 

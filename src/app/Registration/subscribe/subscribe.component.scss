@@ -1,4 +1,3 @@
-:host ::ng-deep .p-steps .p-steps-item .p-menuitem-link .p-steps-title {
-  margin-right: 10px;
-  margin-left: 10px;
+input:checked + label {
+  @apply border-yellow-500
 }
