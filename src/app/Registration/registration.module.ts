@@ -14,6 +14,7 @@ import {StoreModule} from "@ngrx/store";
 import {RECOMMANDATION_STATE_NAME} from "./state/recommandation.selector";
 import {registrationReducer} from "./store/registration.state";
 import {ProgressModule} from "../views/progress/progress.module";
+import {NgxStripeModule} from "ngx-stripe";
 
 
 @NgModule({
@@ -23,15 +24,16 @@ import {ProgressModule} from "../views/progress/progress.module";
     RecommandationComponent,
     ResultatComponent
   ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RegistrationRoutingModule,
-        RouterModule,
-        StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
-        EffectsModule.forFeature([RecommandationEffects]),
-        ProgressModule
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RegistrationRoutingModule,
+    RouterModule,
+    StoreModule.forFeature(RECOMMANDATION_STATE_NAME, registrationReducer),
+    EffectsModule.forFeature([RecommandationEffects]),
+    ProgressModule,
+    NgxStripeModule
 
-    ]
+  ]
 })
 export class RegistrationModule { }

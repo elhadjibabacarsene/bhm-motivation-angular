@@ -1,12 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from "@ngrx/store";
 import {RegistrationState} from "../store/registration.state";
-import {getRecommandationSelector} from "../state/recommandation.selector";
 import {ResultRecommandation} from "../models/recommandation.model";
 import Validation from "../../shared/validations/confirm-password.validator";
-import Swal from "sweetalert2";
+import {StripeCardComponent, StripeService} from "ngx-stripe";
+import {StripeCardElementOptions, PaymentIntent} from "@stripe/stripe-js";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {switchMap} from "rxjs/operators";
 
+
+class StripeElementsOptions {
+}
 
 @Component({
   selector: 'app-subscribe',
@@ -15,6 +21,29 @@ import Swal from "sweetalert2";
 })
 export class SubscribeComponent implements OnInit {
   result: ResultRecommandation | null | undefined;
+  @ViewChild(StripeCardComponent) card!: StripeCardComponent;
+  proccedPaymentStatus = false;
+
+
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        fontWeight: '300',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '18px',
+        '::placeholder': {
+          color: '#CFD7E0',
+        },
+      },
+    },
+  }
+  elementsOptions: StripeElementsOptions = {
+    locale: 'xof',
+  };
+
+  stripeTest!: FormGroup;
 
   subscribeForm = new FormGroup({
       prenom: new FormControl('', [
@@ -43,14 +72,18 @@ export class SubscribeComponent implements OnInit {
       confirmPassword: new FormControl('', [
         Validators.required]),
       sexe: new FormControl('Homme', Validators.required),
-      duree: new FormControl('3 mois')
+      duree: new FormControl('1-mois')
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
     }
   )
 
-  constructor(private store: Store<RegistrationState>) {
+  constructor(private store: Store<RegistrationState>,
+              private stripeService: StripeService,
+              private fb: FormBuilder,
+              private httpClient: HttpClient) {
+
   }
 
 
@@ -82,52 +115,67 @@ export class SubscribeComponent implements OnInit {
     return this.subscribeForm.get('confirmPassword')
   }
 
-  ngOnInit(): void {
+  get duree(){
+    return this.subscribeForm.get('duree')
+  }
+
+  changePrice(evt: any){
+      if(evt.target.id === '1-mois'){
+        this.stripeTest.controls['amount'].setValue(15000);
+      }else{
+        this.stripeTest.controls['amount'].setValue(12000);
+      }
+  }
+
+  updateEmail(evt: any){
+    this.stripeTest.controls['name'].setValue(evt.target.value);
   }
 
 
-  paymentStripe() {
-    Swal.fire({
-      html: `
-            <p class="text-lg text-gray-900">Programme summer body</p>
-            <form id="payment-form">
-              <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+  ngOnInit(): void {
+    this.stripeTest = this.fb.group({
+      name: ['', [Validators.required]],
+      amount: [0, [Validators.required, Validators.pattern(/\d+/)]],
+    });
+  }
 
-              <button id="submit" class="bg-yellow-500 rounded p-3 text-white">
+  pay(): void{
+    if(this.stripeTest.valid){
+      this.createPaymentIntent(this.stripeTest.get('amount')?.value).pipe(
+        switchMap((pi) =>
+          // @ts-ignore
+          this.stripeService.confirmCardPayment(pi.client_secret, {
+            payment_method: {
+              card: this.card.element,
+              billing_details: {
+                name: this.stripeTest.get('name')?.value,
+              }
+            }
+          })
+        )
+      )
+        .subscribe((result) => {
+          if(result.error){
+            // Show error to your customer (e.g., insufficient funds)
+            console.log(result.error.message);
+          }else {
+            // The payment has been processed!
+            if (result.paymentIntent?.status === 'succeeded') {
+              // Show a success message to your customer
+            }
+          }
+        })
+    }else {
+      console.log(this.stripeTest);
+    }
+  }
 
-                <div class="spinner hidden" id="spinner"></div>
+  createPaymentIntent(amount: number){
+      return this.httpClient.post<PaymentIntent>(`${environment.apiUrl}/abonnes/payment`, {amount});
+  }
 
-                <span id="button-text">Pay now</span>
 
-              </button>
-
-              <p id="card-error" role="alert"></p>
-
-              <p class="result-message hidden">
-
-                Payment succeeded, see the result in your
-
-                <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-
-              </p>
-            </form>
-      `,
-      focusConfirm: false,
-      preConfirm: () => {
-        // @ts-ignore
-        const login = Swal.getPopup()?.querySelector('#login')?.value
-        // @ts-ignore
-        const password = Swal.getPopup()?.querySelector('#password')?.value
-        if (!login || !password) {
-          Swal.showValidationMessage(`Please enter login and password`)
-        }
-        return {login: login, password: password}
-      }
-    }).then((result) => {
-      Swal.fire(`
-    Login: ${result.value?.login}
-    Password: ${result.value?.password}
-  `.trim())
-    })
+  proccedPayment() {
+    this.proccedPaymentStatus = true
   }
 }

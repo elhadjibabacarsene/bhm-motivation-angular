@@ -9,6 +9,7 @@ import {environment} from "../environments/environment";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgxStripeModule} from "ngx-stripe";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       logOnly: environment.production, // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxStripeModule.forRoot('pk_test_51Ib1WgEnjYEZm3mXOHrCuNIGw4TdxpXBQTEITJsPKQShb9NzPbDj4nV7SVb08fv05XOT98aEsKeB2b0MgiyGhL5900MXTAWkcS')
 
   ],
   providers: [
