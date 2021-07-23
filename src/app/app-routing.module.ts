@@ -4,7 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'registration',
-    loadChildren: () => import('./Registration/registration.module').then(m => m.RegistrationModule)
+    loadChildren: () => import('./Registration/registration.module').then(m => m.RegistrationModule),
+    data: {
+      feature: "registration"
+    }
   }
 ];
 
