@@ -9,8 +9,7 @@ import {FeatureFlagsService} from "./feature-flags.service";
 export class FeatureGuard implements CanLoad {
 
   private constructor(private featureFlagsService: FeatureFlagsService,
-                      private router: Router,
-                      private route: ActivatedRoute) {
+                      private router: Router) {
   }
 
   canLoad(

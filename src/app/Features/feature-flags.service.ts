@@ -31,7 +31,6 @@ export class FeatureFlagsService {
   isFeatureEnabled(key: string): boolean{
     if(!isEmpty(this.config)){
       const feature = find(this.config, ['libelle', key])
-      console.log(feature?.statut)
       if(feature?.statut === true){
         return true;
       }
