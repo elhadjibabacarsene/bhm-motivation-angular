@@ -9,6 +9,9 @@ import {PaymentIntent, StripeCardElementOptions} from "@stripe/stripe-js";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {switchMap} from "rxjs/operators";
+import {ToastrService} from "ngx-toastr";
+import Swal from "sweetalert2";
+import {Router} from "@angular/router";
 
 
 class StripeElementsOptions {
@@ -82,7 +85,9 @@ export class SubscribeComponent implements OnInit {
   constructor(private store: Store<RegistrationState>,
               private stripeService: StripeService,
               private fb: FormBuilder,
-              private httpClient: HttpClient) {
+              private httpClient: HttpClient,
+              private toastr: ToastrService,
+              private router: Router) {
 
   }
 
@@ -120,11 +125,13 @@ export class SubscribeComponent implements OnInit {
   }
 
   changePrice(evt: any) {
+    console.log(evt.target.id);
     if (evt.target.id === '1-mois') {
       this.stripeTest.controls['amount'].setValue(15000);
     } else {
       this.stripeTest.controls['amount'].setValue(12000);
     }
+    console.log(this.stripeTest.get('amount')?.value, 'before before')
   }
 
   updateEmail(evt: any) {
@@ -141,6 +148,7 @@ export class SubscribeComponent implements OnInit {
 
   pay(): void {
     if (this.stripeTest.valid) {
+      console.log(this.stripeTest.get('amount')?.value,'before');
       this.createPaymentIntent(this.stripeTest.get('amount')?.value).pipe(
         switchMap((pi) =>
           // @ts-ignore
@@ -157,14 +165,27 @@ export class SubscribeComponent implements OnInit {
         .subscribe((result) => {
           if (result.error) {
             // Show error to your customer (e.g., insufficient funds)
-            console.log(result.error.message);
+            this.toastr.error(result.error.message, 'Echec du paiement !');
           } else {
             // The payment has been processed!
             if (result.paymentIntent?.status === 'succeeded') {
               // Show a success message to your customer
-              console.log(result);
+              Swal.fire({
+                title: 'Félicitation !',
+                html: 'Bienvenue sur BHM ! Vous pouvez dès maintenant commencer votre programme.',
+                confirmButtonText: 'Se connecter',
+                icon:'success',
+                allowOutsideClick: false,
+                confirmButtonColor: '#EF9A38'
+              }).then((result) => {
+                if(result.isConfirmed){
+                  this.router.navigate(['/login']);
+                }
+              })
             }
           }
+        }, error => {
+          this.toastr.error('Veuillez réessayer !!.', 'Echec du paiement !');
         })
     } else {
       console.log(this.stripeTest);
@@ -172,6 +193,7 @@ export class SubscribeComponent implements OnInit {
   }
 
   createPaymentIntent(amount: number) {
+    console.log(amount);
     return this.httpClient.post<PaymentIntent>(`${environment.apiUrl}/abonnes/payment`, {amount});
   }
 

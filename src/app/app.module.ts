@@ -3,7 +3,6 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {RegistrationModule} from "./Registration/registration.module";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
 import {StoreModule} from "@ngrx/store";
@@ -12,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxStripeModule} from "ngx-stripe";
 import {FeatureFlagsService} from "./Features/feature-flags.service";
 import { LoginComponent } from './Login/login.component';
-import {LoginModule} from "./Login/login.module";
+import { ToastrModule } from 'ngx-toastr';
 
 //Chargement des status des fonctionnalités depuis l'Api
 const featureFactory = (featureFlagsService: FeatureFlagsService) => () => featureFlagsService.loadConfig();
@@ -35,6 +34,7 @@ const featureFactory = (featureFlagsService: FeatureFlagsService) => () => featu
     }),
     BrowserAnimationsModule,
     NgxStripeModule.forRoot('pk_test_51Ib1WgEnjYEZm3mXOHrCuNIGw4TdxpXBQTEITJsPKQShb9NzPbDj4nV7SVb08fv05XOT98aEsKeB2b0MgiyGhL5900MXTAWkcS'),
+    ToastrModule.forRoot()
   ],
   providers: [
     {
