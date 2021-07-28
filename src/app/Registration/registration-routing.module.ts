@@ -16,20 +16,21 @@ import {ResultatComponent} from "./recommandation/resultat/resultat.component";
         component: RegistrationComponent,
         children: [
           {
-            path: 'registration',
+            path: '',
             component: RecommandationComponent
           },
           {
-            path: 'registration/result-recommandation',
+            path: 'result-recommandation',
             component: ResultatComponent
           },
           {
-            path: 'registration/subscribe',
+            path: 'subscribe',
             component: SubscribeComponent
           }
         ]
       }
     ])
-  ]
+  ],
+  exports: [RouterModule]
 })
 export class RegistrationRoutingModule { }

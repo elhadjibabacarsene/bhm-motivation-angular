@@ -1,3 +1,5 @@
 export interface FeatureConfig{
-  [key: string]: boolean;
+  id:number,
+  libelle: string,
+  statut: boolean
 }

@@ -15,6 +15,7 @@ import {RECOMMANDATION_STATE_NAME} from "./state/recommandation.selector";
 import {registrationReducer} from "./store/registration.state";
 import {ProgressModule} from "../views/progress/progress.module";
 import {NgxStripeModule} from "ngx-stripe";
+import {LoginRoutingModule} from "../Login/login-routing.module";
 
 
 @NgModule({
@@ -34,6 +35,6 @@ import {NgxStripeModule} from "ngx-stripe";
     ProgressModule,
     NgxStripeModule
 
-  ]
+  ],
 })
 export class RegistrationModule { }

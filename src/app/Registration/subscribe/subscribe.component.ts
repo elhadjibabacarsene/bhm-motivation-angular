@@ -5,7 +5,7 @@ import {RegistrationState} from "../store/registration.state";
 import {ResultRecommandation} from "../models/recommandation.model";
 import Validation from "../../shared/validations/confirm-password.validator";
 import {StripeCardComponent, StripeService} from "ngx-stripe";
-import {StripeCardElementOptions, PaymentIntent} from "@stripe/stripe-js";
+import {PaymentIntent, StripeCardElementOptions} from "@stripe/stripe-js";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {switchMap} from "rxjs/operators";
@@ -34,7 +34,7 @@ export class SubscribeComponent implements OnInit {
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSize: '18px',
         '::placeholder': {
-          color: '#CFD7E0',
+          color: '#acb1bc',
         },
       },
     },
@@ -71,7 +71,7 @@ export class SubscribeComponent implements OnInit {
         Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]),
       confirmPassword: new FormControl('', [
         Validators.required]),
-      sexe: new FormControl('Homme', Validators.required),
+      sexe: new FormControl('h', Validators.required),
       duree: new FormControl('1-mois')
     },
     {
@@ -115,19 +115,19 @@ export class SubscribeComponent implements OnInit {
     return this.subscribeForm.get('confirmPassword')
   }
 
-  get duree(){
+  get duree() {
     return this.subscribeForm.get('duree')
   }
 
-  changePrice(evt: any){
-      if(evt.target.id === '1-mois'){
-        this.stripeTest.controls['amount'].setValue(15000);
-      }else{
-        this.stripeTest.controls['amount'].setValue(12000);
-      }
+  changePrice(evt: any) {
+    if (evt.target.id === '1-mois') {
+      this.stripeTest.controls['amount'].setValue(15000);
+    } else {
+      this.stripeTest.controls['amount'].setValue(12000);
+    }
   }
 
-  updateEmail(evt: any){
+  updateEmail(evt: any) {
     this.stripeTest.controls['name'].setValue(evt.target.value);
   }
 
@@ -139,8 +139,8 @@ export class SubscribeComponent implements OnInit {
     });
   }
 
-  pay(): void{
-    if(this.stripeTest.valid){
+  pay(): void {
+    if (this.stripeTest.valid) {
       this.createPaymentIntent(this.stripeTest.get('amount')?.value).pipe(
         switchMap((pi) =>
           // @ts-ignore
@@ -155,23 +155,24 @@ export class SubscribeComponent implements OnInit {
         )
       )
         .subscribe((result) => {
-          if(result.error){
+          if (result.error) {
             // Show error to your customer (e.g., insufficient funds)
             console.log(result.error.message);
-          }else {
+          } else {
             // The payment has been processed!
             if (result.paymentIntent?.status === 'succeeded') {
               // Show a success message to your customer
+              console.log(result);
             }
           }
         })
-    }else {
+    } else {
       console.log(this.stripeTest);
     }
   }
 
-  createPaymentIntent(amount: number){
-      return this.httpClient.post<PaymentIntent>(`${environment.apiUrl}/abonnes/payment`, {amount});
+  createPaymentIntent(amount: number) {
+    return this.httpClient.post<PaymentIntent>(`${environment.apiUrl}/abonnes/payment`, {amount});
   }
 
 

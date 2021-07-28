@@ -1,5 +1,5 @@
 import {HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,14 +10,20 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgxStripeModule} from "ngx-stripe";
+import {FeatureFlagsService} from "./Features/feature-flags.service";
+import { LoginComponent } from './Login/login.component';
+import {LoginModule} from "./Login/login.module";
+
+//Chargement des status des fonctionnalités depuis l'Api
+const featureFactory = (featureFlagsService: FeatureFlagsService) => () => featureFlagsService.loadConfig();
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
-    RegistrationModule,
     HttpClientModule,
     AppRoutingModule,
     EffectsModule.forRoot([]),
@@ -28,10 +34,15 @@ import {NgxStripeModule} from "ngx-stripe";
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
     BrowserAnimationsModule,
-    NgxStripeModule.forRoot('pk_test_51Ib1WgEnjYEZm3mXOHrCuNIGw4TdxpXBQTEITJsPKQShb9NzPbDj4nV7SVb08fv05XOT98aEsKeB2b0MgiyGhL5900MXTAWkcS')
-
+    NgxStripeModule.forRoot('pk_test_51Ib1WgEnjYEZm3mXOHrCuNIGw4TdxpXBQTEITJsPKQShb9NzPbDj4nV7SVb08fv05XOT98aEsKeB2b0MgiyGhL5900MXTAWkcS'),
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: featureFactory,
+      deps: [FeatureFlagsService],
+      multi: true
+    }
   ],
   exports: [
     AppComponent
