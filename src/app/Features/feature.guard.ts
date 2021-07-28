@@ -9,14 +9,15 @@ import {FeatureFlagsService} from "./feature-flags.service";
 export class FeatureGuard implements CanLoad {
 
   private constructor(private featureFlagsService: FeatureFlagsService,
-                      private router: Router) {
+                      private router: Router,
+                      private route: ActivatedRoute) {
   }
 
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log('hello');
     const feature = route.data?.feature;
+    console.log(feature, 'feature name');
     if(feature){
       const isEnabled = this.featureFlagsService.isFeatureEnabled(feature);
       if(isEnabled){
