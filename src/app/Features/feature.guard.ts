@@ -24,7 +24,7 @@ export class FeatureGuard implements CanLoad {
         return true;
       }
     }
-    this.router.navigate(['login']).then(() => alert('L\'inscription est temporairement indisponible'));
+    this.router.navigate(['login']).then(() => alert('La fonctionnalité ' + feature +' est temporairement indisponible !'));
     return  false;
   }
 }
