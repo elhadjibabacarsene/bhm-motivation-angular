@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FeatureFlagsServiceService } from './feature-flags.service';
+import { FeatureFlagsService } from './feature-flags.service';
 
 describe('FeatureFlagsServiceService', () => {
-  let service: FeatureFlagsServiceService;
+  let service: FeatureFlagsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FeatureFlagsServiceService);
+    service = TestBed.inject(FeatureFlagsService);
   });
 
   it('should be created', () => {

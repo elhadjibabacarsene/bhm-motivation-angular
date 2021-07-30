@@ -13,4 +13,9 @@ html, body{
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.bhm-gradient{
+  background: rgba(0, 0, 0, 0) -webkit-linear-gradient(45deg, rgb(253, 150, 3), rgb(253, 124, 3), rgb(198, 0, 65)) repeat scroll 0% 0% padding-box text;
+  -webkit-text-fill-color: transparent;
+}
+
 $color-bhm-orange: #EF9A38;

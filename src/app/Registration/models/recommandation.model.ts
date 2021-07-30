@@ -2,7 +2,9 @@ export interface ResultRecommandation{
   recommanded: boolean,
   progRecommanded: string,
   imc: number,
-  choix: string
+  choix: string,
+  taille: number
+  poids: number
 }
 export interface DemandeDeRecommandation{
   taille: number,

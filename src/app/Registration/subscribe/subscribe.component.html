@@ -136,20 +136,20 @@
       <h1>Choisissez une durée: </h1>
       <div class="grid grid-cols-2 gap-4 mt-2">
         <div class="text-center">
-          <input class="hidden" value="1-mois" id="1-mois" type="radio" formControlName="duree" (change)="changePrice($event)" checked>
+          <input class="hidden" value="1" id="1" type="radio" formControlName="duree" (change)="changePrice($event)" checked>
           <label
             class="rounded-lg flex flex-col p-4 border border-b-4 border-gray-300 border-gray-300 rounded-x cursor-pointer"
-            for="1-mois">
+            for="1">
             <span class="text-base font-medium mt-2 text-center">1 mois</span>
             <span class="text-yellow-500 font-black text-2xl mt-3">15 000 FCFA</span>
             <span class="text-light text-sm">/mois</span>
           </label>
         </div>
         <div class="text-center">
-          <input class="hidden" value="3-mois" id="3-mois" type="radio" formControlName="duree" (change)="changePrice($event)" checked>
+          <input class="hidden" value="3" id="3" type="radio" formControlName="duree" (change)="changePrice($event)" checked>
           <label
             class="rounded-lg flex flex-col p-4 border border-b-4 border-gray-300 border-gray-300 rounded-x cursor-pointer"
-            for="3-mois">
+            for="3">
             <span class="text-base font-medium mt-2 text-center">3 mois</span>
             <span class="text-yellow-500 font-black text-2xl mt-3">12 000 FCFA</span>
             <span class="text-light text-sm">/mois</span>

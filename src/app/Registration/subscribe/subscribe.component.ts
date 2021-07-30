@@ -12,6 +12,9 @@ import {switchMap} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
+import {getRecommandation} from "../state/recommandation.action";
+import {getRecommandationSelector} from "../state/recommandation.selector";
+import {Utilities} from "../../shared/functions/Utilities";
 
 
 class StripeElementsOptions {
@@ -75,7 +78,7 @@ export class SubscribeComponent implements OnInit {
       confirmPassword: new FormControl('', [
         Validators.required]),
       sexe: new FormControl('h', Validators.required),
-      duree: new FormControl('1-mois')
+      duree: new FormControl('1')
     },
     {
       validators: [Validation.match('password', 'confirmPassword')]
@@ -125,13 +128,11 @@ export class SubscribeComponent implements OnInit {
   }
 
   changePrice(evt: any) {
-    console.log(evt.target.id);
-    if (evt.target.id === '1-mois') {
+    if (evt.target.id === '1') {
       this.stripeTest.controls['amount'].setValue(15000);
     } else {
       this.stripeTest.controls['amount'].setValue(12000);
     }
-    console.log(this.stripeTest.get('amount')?.value, 'before before')
   }
 
   updateEmail(evt: any) {
@@ -142,13 +143,12 @@ export class SubscribeComponent implements OnInit {
   ngOnInit(): void {
     this.stripeTest = this.fb.group({
       name: ['', [Validators.required]],
-      amount: [0, [Validators.required, Validators.pattern(/\d+/)]],
+      amount: [12000, [Validators.required, Validators.pattern(/\d+/)]],
     });
   }
 
   pay(): void {
     if (this.stripeTest.valid) {
-      console.log(this.stripeTest.get('amount')?.value,'before');
       this.createPaymentIntent(this.stripeTest.get('amount')?.value).pipe(
         switchMap((pi) =>
           // @ts-ignore
@@ -170,35 +170,87 @@ export class SubscribeComponent implements OnInit {
             // The payment has been processed!
             if (result.paymentIntent?.status === 'succeeded') {
               // Show a success message to your customer
-              Swal.fire({
-                title: 'Félicitation !',
-                html: 'Bienvenue sur BHM ! Vous pouvez dès maintenant commencer votre programme.',
-                confirmButtonText: 'Se connecter',
-                icon:'success',
-                allowOutsideClick: false,
-                confirmButtonColor: '#EF9A38'
-              }).then((result) => {
-                if(result.isConfirmed){
-                  this.router.navigate(['/login']);
-                }
-              })
+              this.finishedRegistration(result.paymentIntent, this.subscribeForm.value);
             }
           }
         }, error => {
           this.toastr.error('Veuillez réessayer !!.', 'Echec du paiement !');
         })
     } else {
-      console.log(this.stripeTest);
+      // console.log(this.stripeTest);
     }
   }
 
   createPaymentIntent(amount: number) {
-    console.log(amount);
     return this.httpClient.post<PaymentIntent>(`${environment.apiUrl}/abonnes/payment`, {amount});
   }
 
 
   proccedPayment() {
     this.proccedPaymentStatus = true
+  }
+
+  successRegistration(){
+    Swal.close();
+    Swal.fire({
+      title: 'Félicitation !',
+      html: 'Bienvenue sur BHM ! Vous pouvez dès maintenant commencer votre programme.',
+      confirmButtonText: 'Se connecter',
+      icon:'success',
+      allowOutsideClick: false,
+      confirmButtonColor: '#EF9A38'
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.router.navigate(['/login']);
+      }
+    })
+  }
+
+  errorRegistration(){
+    Swal.close();
+    this.toastr.error('Une erreur est survenue, veuillez réessayer svp !', 'Echec de l\'inscription');
+  }
+
+  finishedRegistration(paymentIntent: any, formValue: any){
+    Swal.fire({
+      title: 'Paiement effectué !.',
+      text: 'Veuillez patientez pendant que nous finalisons votre inscription !',
+      icon: 'info',
+      allowOutsideClick: false,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      didOpen: async () => {
+        Swal.showLoading();
+        const requestValue = this.refactorFormValue(formValue, paymentIntent);
+        this.sendRegistrationRequest(requestValue);
+        // this.store.dispatch(getRecommandation({demande: this.recommandationForm.value}));
+      }
+    });
+  }
+
+  refactorFormValue(formValue: any, paymentIntent:any){
+    // On récupère le poids, la taille et le programme && les infos du payment
+    this.store.select(getRecommandationSelector).subscribe((data) => {
+      formValue = {
+        ...formValue,
+        poids: data?.poids,
+        taille: data?.taille,
+        programme:  data?.progRecommanded ,
+        descriptionPayment: paymentIntent.id,
+        montantPayment: paymentIntent.amount,
+      }
+    });
+    return formValue;
+  }
+
+  sendRegistrationRequest(requestValue: any){
+    this.httpClient.post(`${environment.apiUrl}/abonnes`, requestValue).subscribe(result => {
+      if(result === 'success'){
+        this.successRegistration()
+      }
+    }, error => {
+      this.errorRegistration();
+      console.log(error);
+    })
   }
 }
