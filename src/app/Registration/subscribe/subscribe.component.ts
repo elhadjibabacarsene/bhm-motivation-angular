@@ -12,9 +12,7 @@ import {switchMap} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
-import {getRecommandation} from "../state/recommandation.action";
 import {getRecommandationSelector} from "../state/recommandation.selector";
-import {Utilities} from "../../shared/functions/Utilities";
 
 
 class StripeElementsOptions {
@@ -165,6 +163,7 @@ export class SubscribeComponent implements OnInit {
         .subscribe((result) => {
           if (result.error) {
             // Show error to your customer (e.g., insufficient funds)
+            Swal.close();
             this.toastr.error(result.error.message, 'Echec du paiement !');
           } else {
             // The payment has been processed!
@@ -174,6 +173,7 @@ export class SubscribeComponent implements OnInit {
             }
           }
         }, error => {
+          Swal.close();
           this.toastr.error('Veuillez réessayer !!.', 'Echec du paiement !');
         })
     } else {
@@ -209,6 +209,21 @@ export class SubscribeComponent implements OnInit {
   errorRegistration(){
     Swal.close();
     this.toastr.error('Une erreur est survenue, veuillez réessayer svp !', 'Echec de l\'inscription');
+  }
+
+  inProgressRegistration(){
+    Swal.fire({
+      title: 'Nous finalisons votre inscription !',
+      icon: 'info',
+      allowOutsideClick: false,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+        this.pay();
+
+      }
+    })
   }
 
   finishedRegistration(paymentIntent: any, formValue: any){

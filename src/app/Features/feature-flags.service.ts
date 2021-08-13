@@ -3,7 +3,7 @@ import {FeatureConfig} from "./feature.interface";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {tap} from "rxjs/operators";
-import {has, get, some, map, isEmpty, find} from 'lodash'
+import {isEmpty, find} from 'lodash'
 
 
 const httpOptions = {
@@ -29,7 +29,6 @@ export class FeatureFlagsService {
   }
 
   isFeatureEnabled(key: string): boolean{
-    console.log(key, 'key');
     if(!isEmpty(this.config) && key){
       const feature = find(this.config, ['libelle', key])
       console.log(this.config, 'feature get')

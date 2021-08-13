@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {getRecommandation, getRecommandationSuccess} from "./recommandation.action";
-import {exhaustMap, map, mergeMap, tap} from "rxjs/operators";
-import {RegistrationService} from "../Services/registration.service.service";
+import {map, mergeMap, tap} from "rxjs/operators";
+import {RegistrationService} from "../Services/registration/registration.service";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
 

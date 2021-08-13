@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DemandeDeRecommandation, ResultRecommandation} from "../models/recommandation.model";
-import {environment} from "../../../environments/environment";
+import {DemandeDeRecommandation, ResultRecommandation} from "../../models/recommandation.model";
+import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {RecommandationState} from "../state/recommandation.state";
+import {RecommandationState} from "../../state/recommandation.state";
 
 const RECOMMANDATION_URL = environment.apiUrl + '/programmes/recommandation';
 
